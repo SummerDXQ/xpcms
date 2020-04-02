@@ -15,6 +15,8 @@
 //    return view('welcome');
 //});
 
-Route::get('/admin/login', function () {
-    return view('admin/Account');
-});
+Route::get('/admins/login', 'admins\Account@login');
+Route::get('/admins/account/captcha', 'admins\Account@captcha');
+Route::post('/admins/account/doLogin','admins\Account@doLogin');
+Route::get('/admins/home/index','admins\Home@index');
+//Route::get('/admins/home/leftMenu','admins\Home@leftMenu');
