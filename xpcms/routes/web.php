@@ -15,8 +15,10 @@
 //    return view('welcome');
 //});
 
-Route::get('/admins/login', 'admins\Account@login');
+Route::get('/admins/login', 'admins\Account@login')->name('login');
 Route::get('/admins/account/captcha', 'admins\Account@captcha');
 Route::post('/admins/account/doLogin','admins\Account@doLogin');
-Route::get('/admins/home/index','admins\Home@index');
+//Route::get('/admins/home/index','admins\Home@index')->middleware(['auth','rights']);
+Route::get('/admins/home/index','admins\Home@index')->middleware('rights');
+//Route::get('/admins/home/index','admins\Home@index');
 //Route::get('/admins/home/leftMenu','admins\Home@leftMenu');

@@ -101,9 +101,9 @@
             if(username===''){
                 alert('Username is required!')
             }
-            if(password===''){
-                alert('password is required!')
-            }
+            // if(password===''){
+            //     alert('password is required!')
+            // }
             if(verifyCode===''){
                 alert('verifyCode is required!')
             }
@@ -111,14 +111,13 @@
                 'http://localhost:8080/xpcms/xpcms/public/admins/account/doLogin',
                 {username:username,password:password,verifyCode:verifyCode,_token:_token},
                 function (res) {
-                    console.log('request successfully');
+                    // console.log('request successfully');
                     reload_captcha();
                     if(res.code>0){
-                        console.log(res.result);
                         alert(res.msg);
                     }else{
-                        console.log('登陆成功');
-                        alert(res.msg);
+                        alert(res.result);
+                        // alert(res.)
                         setTimeout(function () {
                             window.location.href='http://localhost:8080/xpcms/xpcms/public/admins/home/index';
                         },2000)

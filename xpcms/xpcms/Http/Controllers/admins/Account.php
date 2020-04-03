@@ -18,24 +18,19 @@ class Account extends Controller{
         if($username===''){
             exit(json_encode(array('code'=>1,'msg'=>'Username is required!')));
         }
-        if($password===''){
-            exit(json_encode(array('code'=>1,'msg'=>'Password is required!')));
-        }
+//        if($password===''){
+//            exit(json_encode(array('code'=>1,'msg'=>'Password is required!')));
+//        }
         session_start();
         if($verifyCode!==$_SESSION['code']){
             exit(json_encode(array('code'=>1,'msg'=>'VerifyCode is not correct!')));
         }
-//        $res = Auth::attempt(['username'=>$username,'password'=>$password,'status'=>0]);
-//        $res = Auth::attempt(['username'=>$username]);】】
-//        $eid = \Auth::user()->id;
-
-        $res = Auth::attempt(['username' => 'admin', 'password' => "123456"]);
+        $res = Auth::attempt(['username' => $username, 'password' => $password]);
         if(!$res){
             DB::table('xpcms_admin')->where('username',$username)->update(['login_lastip'=>$req->getClientIp(),'login_lasttime'=>time()]);
-//            DB::table('xpcms_admin'->where('username',$username)->)
-            exit(json_encode(['code'=>0,'msg'=>'Login Successfully!']));
+            echo json_encode(['code'=>0,'msg'=>'Login Successfully!','result'=>Hash::make('123456')]);
         }else{
-            return json_encode(['hash'=>Hash::make("123456"),'code'=>1,'msg'=>'Login Failed!','result'=>$res]);
+            echo json_encode(['hash'=>Hash::make("123456"),'code'=>1,'msg'=>'Login Failed!']);
         }
 
 
