@@ -29,7 +29,7 @@
         }
         .panel-group {
             background-color: #404040;
-            width: 200px;
+            width: 20vw;
             height: 95vh;
             overflow-y: auto;
             padding-top: 50px;
@@ -102,7 +102,14 @@
                             <ul class="nav">
                                 @foreach($items->children as $val)
                                 <li>
-                                    <a href="#" onclick="menu_fire(this)" controler="{{$val->controller}}" action="{{$val->action}}}"><span>{{$val->title}}</span></a>
+                                    <a
+                                        href="#"
+                                        onclick="menu_fire(this)"
+                                        controller="{{$val->controller}}"
+                                        action="{{$val->action}}"
+                                    >
+                                        <span>{{$val->title}}</span>
+                                    </a>
                                 </li>
                                 @endforeach
                             </ul>
@@ -112,23 +119,26 @@
                 </div>
                 @endforeach
             </div>
-
-{{--            <div>--}}
-{{--                <iframe src="/admins/home/welcome" onload="resetHeight(this)" style="height: 100%"></iframe>--}}
-{{--            </div>--}}
-
+            <iframe
+                style="position: absolute;right: 0px;top: 5vh;height: 95vh;width: 80vw"
+                src="http://localhost:8080/xpcms/xpcms/public/admins/home/welcome"
+{{--                onload="resetHeight(this)"--}}
+            >
+            </iframe>
         </div>
     </div>
 
     <script>
-        function resetHeight(obj){
-            let left_height = parent.document.documentElement.clientHeight - 141;
-            $(obj).parent('div').height(left_height);
-        }
+        // function resetHeight(obj){
+        //     let left_height = parent.document.documentElement.clientHeight - 141;
+        //     $(obj).parent('div').height(left_height);
+        // }
         function menu_fire(obj){
             let controller = $(obj).attr('controller').toLowerCase();
             let action = $(obj).attr('action');
-            $('iframe').attr('src','/admins/'+controller+'/'+action);
+            let url='http://localhost:8080/xpcms/xpcms/public/admins/'+controller+'/'+action;
+            console.log(url);
+            $('iframe').attr('src','http://localhost:8080/xpcms/xpcms/public/admins/'+controller+'/'+action);
 
         }
         $(function () {
