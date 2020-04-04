@@ -102,7 +102,7 @@
                             <ul class="nav">
                                 @foreach($items->children as $val)
                                 <li>
-                                    <a href="#"><span></span>{{$val->title}}</a>
+                                    <a href="#" onclick="menu_fire(this)" controler="{{$val->controller}}" action="{{$val->action}}}"><span>{{$val->title}}</span></a>
                                 </li>
                                 @endforeach
                             </ul>
@@ -113,11 +113,27 @@
                 @endforeach
             </div>
 
+{{--            <div>--}}
+{{--                <iframe src="/admins/home/welcome" onload="resetHeight(this)" style="height: 100%"></iframe>--}}
+{{--            </div>--}}
 
         </div>
     </div>
 
     <script>
+        function resetHeight(obj){
+            let left_height = parent.document.documentElement.clientHeight - 141;
+            $(obj).parent('div').height(left_height);
+        }
+        function menu_fire(obj){
+            let controller = $(obj).attr('controller').toLowerCase();
+            let action = $(obj).attr('action');
+            $('iframe').attr('src','/admins/'+controller+'/'+action);
+
+        }
+        $(function () {
+
+        })
         // $(function() {
         //     $(".panel-heading").on("click", function(e) {
         //         var idLength = e.currentTarget.id.length;

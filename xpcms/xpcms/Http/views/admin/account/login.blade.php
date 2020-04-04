@@ -116,7 +116,7 @@
                     if(res.code>0){
                         alert(res.msg);
                     }else{
-                        alert(res.result);
+                        alert(res.msg);
                         // alert(res.)
                         setTimeout(function () {
                             window.location.href='http://localhost:8080/xpcms/xpcms/public/admins/home/index';

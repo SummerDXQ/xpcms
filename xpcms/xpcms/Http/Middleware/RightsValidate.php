@@ -7,10 +7,7 @@ use Illuminate\Support\Facades\DB;
 class RightsValidate{
     public function handle($request,Closure $next){
         $admin = Auth::user();
-        $role =
-            DB::table('xpcms_admin_group')
-            ->where('gid',$admin->group_id)
-            ->first();
+        $role = DB::table('xpcms_admin_group')->where('gid',$admin->group_id)->first();
         if(!$role){
             return response($this->_noRights('The role is not exist!',$request),200);
         }
@@ -20,17 +17,17 @@ class RightsValidate{
         $controllers = explode('\\',$actions_arr[0]);
         $controller = $controllers[count($controllers)-1];
         $action = $actions_arr[1];
-        $menu =
-            DB::table('xpcms_admin_menu')
-            ->where('controller',$controller)
-            ->where('action',$action)
-            ->first();
+        $menu = DB::table('xpcms_admin_menu')->where('controller',$controller)->where('action',$action)->first();
         if(!$menu){
             return response($this->_noRights('The menu is not exist!',$request),200);
         }
         if(!in_array($menu->mid,$role->rights)){
             return response($this->_noRights('You have no rights!',$request),200);
         }
+        //pass params to Home controller
+        $admin = $admin->toArray();
+        $admin['rights'] = $role->rights;
+        $request->admin = $admin;
         return $next($request);
     }
 

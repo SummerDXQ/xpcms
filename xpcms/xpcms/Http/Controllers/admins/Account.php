@@ -26,9 +26,10 @@ class Account extends Controller{
             exit(json_encode(array('code'=>1,'msg'=>'VerifyCode is not correct!')));
         }
         $res = Auth::attempt(['username' => $username, 'password' => $password]);
-        if(!$res){
+        if($res){
             DB::table('xpcms_admin')->where('username',$username)->update(['login_lastip'=>$req->getClientIp(),'login_lasttime'=>time()]);
-            echo json_encode(['code'=>0,'msg'=>'Login Successfully!','result'=>Hash::make('123456')]);
+            echo json_encode(['code'=>0,'msg'=>'Login Successfully!','result'=>Hash::make('1') ]);
+//            Hash::check('1',Hash::make('1'))
         }else{
             echo json_encode(['hash'=>Hash::make("123456"),'code'=>1,'msg'=>'Login Failed!']);
         }
