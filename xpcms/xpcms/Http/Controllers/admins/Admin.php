@@ -10,18 +10,13 @@ use xpcms\Http\Controllers\Controller;
 class Admin extends Controller
 {
     public function index(){
-        //admin list
-        $data['list'] = DB::table('xpcms_admin')->get()->all();
-        $tmp = DB::table('xpcms_admin_group')->get()->all();
-        $groups = [];
-        foreach ($tmp as $key=>$value){
-            $groups[$value->gid] = $value->title;
-        }
-//        foreach ($data['list'] as $key=>$value){
-//            $value->group_title = $groups[$value->group_id];
-//            $data['list'][$key] = $value;
-//        }
-        $data['group']=$groups;
+        //admin list, lists and myFunc are customized functions
+        $data['list'] = DB::table('xpcms_admin')->lists();
+        $data['groups']=DB::table('xpcms_admin_group')->myFunc('gid');
         return view('admin.admin.index',$data);
+    }
+
+    public function add(){
+        return view('admin.admin.add');
     }
 }

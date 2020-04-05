@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 class RightsValidate{
     public function handle($request,Closure $next){
         $admin = Auth::user();
+        //item() is customized function
         $role = DB::table('xpcms_admin_group')->where('gid',$admin->group_id)->first();
         if(!$role){
             return response($this->_noRights('The role is not exist!',$request),200);
