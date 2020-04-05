@@ -104,7 +104,7 @@
                                 <li>
                                     <a
                                         href="#"
-                                        onclick="menu_fire(this)"
+                                        onclick="menu_fire(this);"
                                         controller="{{$val->controller}}"
                                         action="{{$val->action}}"
                                     >
@@ -137,7 +137,6 @@
             let controller = $(obj).attr('controller').toLowerCase();
             let action = $(obj).attr('action');
             let url='http://localhost:8080/xpcms/xpcms/public/admins/'+controller+'/'+action;
-            console.log(url);
             $('iframe').attr('src','http://localhost:8080/xpcms/xpcms/public/admins/'+controller+'/'+action);
 
         }
