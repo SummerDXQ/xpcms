@@ -175,6 +175,9 @@ return [
         xpcms\Providers\EventServiceProvider::class,
         xpcms\Providers\RouteServiceProvider::class,
 
+        //customized DbServiceProvider
+        xpcms\Providers\DbServiceProvider::class,
+
     ],
 
     /*

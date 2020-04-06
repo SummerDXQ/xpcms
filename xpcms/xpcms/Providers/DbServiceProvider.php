@@ -50,5 +50,22 @@ class DbServiceProvider extends ServiceProvider
             }
             return $result;
         });
+
+        //pagination
+        QueryBuilder::macro('pages',function ($pageSize=10){
+            $pageObj = $this->paginate($pageSize);
+            $item_list = $pageObj->items();
+            $result=[];
+            foreach ($item_list as $key=>$value){
+                $result[]=(array)$value;
+            }
+            //total lists
+            $data['lists'] = $result;
+            //total pages
+            $data['total'] = $pageObj->total();
+            //html page number
+            $data["links"] = $pageObj->links();
+            return $data;
+        });
     }
 }
