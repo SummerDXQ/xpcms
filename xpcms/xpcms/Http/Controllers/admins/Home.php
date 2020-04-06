@@ -31,9 +31,9 @@ class Home extends Controller{
     }
 
     private function get_menus($admin){
-        $menus = DB::table('xpcms_admin_menu')->where('pid',0)->whereIn('mid',$admin['rights'])->get()->all();
+        $menus = DB::table('xpcms_admin_menu')->where('pid',0)->where('ishidden','0')->whereIn('mid',$admin['rights'])->get()->all();
         foreach ($menus as $key => $val){
-            $children = DB::table('xpcms_admin_menu')->where('pid',$menus[$key]->mid)->whereIn('mid',$admin['rights'])->get()->all();
+            $children = DB::table('xpcms_admin_menu')->where('pid',$menus[$key]->mid)->where('ishidden','0')->whereIn('mid',$admin['rights'])->get()->all();
             $menus[$key]->children = $children;
         }
         return $menus;

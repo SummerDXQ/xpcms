@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 class RightsValidate{
     public function handle($request,Closure $next){
         $admin = Auth::user();
+//        exit(json_encode(['menu'=>$menu]));
         //item() is customized function
         $role = DB::table('xpcms_admin_group')->where('gid',$admin->group_id)->first();
         if(!$role){
@@ -19,11 +20,15 @@ class RightsValidate{
         $controller = $controllers[count($controllers)-1];
         $action = $actions_arr[1];
         $menu = DB::table('xpcms_admin_menu')->where('controller',$controller)->where('action',$action)->first();
+//        exit(json_encode(['menu'=>$menu]));
         if(!$menu){
             return response($this->_noRights('The menu is not exist!',$request),200);
         }
         if(!in_array($menu->mid,$role->rights)){
             return response($this->_noRights('You have no rights!',$request),200);
+        }
+        if($menu->status==1){
+            return response($this->_noRights('The menu has been disabled!',$request),200);
         }
         //pass params to Home controller
         $admin = $admin->toArray();
