@@ -45,6 +45,8 @@ Route::namespace('admins')->middleware(['auth','rights'])->group(function (){
     Route::post('/admins/menus/del','Menus@del');
     //Role management
     Route::get('/admins/groups/index','Groups@index');
+    Route::post('/admins/groups/save','Groups@save');
+    Route::post('/admins/groups/edit','Groups@edit');
     //Article management
     Route::get('/admins/content/index','Content@index');
 });

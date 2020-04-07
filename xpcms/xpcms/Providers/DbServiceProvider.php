@@ -41,8 +41,6 @@ class DbServiceProvider extends ServiceProvider
         });
 
         QueryBuilder::macro('myFunc',function ($index){
-            //DB::table('xpcms_admin_group')->myFunc('gid');
-            //$this == DB::table('xpcms_admin_group')
             $res = $this->lists();
             $result = [];
             foreach ($res as $key=>$value){

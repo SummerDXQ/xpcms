@@ -23,19 +23,12 @@
         .model-item{
             margin: 10px;
         }
-        input{
-            width: 80%;
-        }
-        select{
-            width: 80%;
-        }
     </style>
 </head>
 <body>
 <div>
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Add</button>
-
     <!-- Modal -->
     @csrf
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -43,37 +36,24 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Add Admin</h4>
+                    <h4 class="modal-title" id="myModalLabel">Add Role</h4>
                 </div>
                 <div class="modal-body">
                     <div class="model-item">
-                        <label for="id">ID</label>
-                        <input type="text" id="id">
+                        <label for="id">Role</label>
+                        <input type="text" id="role">
                     </div>
-                    <div class="model-item">
-                        <label for="Password">Password:</label>
-                        <input type="text" id="password">
-                    </div>
-                    <div class="model-item">
-                        <label for="Role">Role:</label>
-                        <select id="group_id">
-{{--                            @foreach($groups as $item)--}}
-{{--                                <option value="{{$item['gid']}}">{{$item['title']}}</option>--}}
-{{--                            @endforeach--}}
-                        </select>
-                    </div>
-                    <div class="model-item">
-                        <label for="Name">Name:</label>
-                        <input type="text" id="real_name">
-                    </div>
-                    <div class="model-item">
-                        <label for="Phone">Phone:</label>
-                        <input type="text" id="phone">
-                    </div>
-                    <div class="model-item">
-                        <label for="Setting">Setting:</label>
-                        <input type="checkbox" title="disabled" value="1" id="status">
-                    </div>
+                    <form>
+                    @foreach($menus as $val)
+                        <div><strong>{{$val['title']}}</strong></div>
+                        @if($val['children'])
+                        @foreach($val['children'] as $child)
+                            <input type="checkbox" value="{{$child['mid']}}" name="{{$child['title']}}">
+                            <span>{{$child['title']}}</span>
+                        @endforeach
+                        @endif
+                    @endforeach
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -109,37 +89,28 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Edit Admin</h4>
+                <h4 class="modal-title" id="myModalLabel">Edit Role</h4>
             </div>
             <div class="modal-body">
                 <div class="model-item">
-                    <label for="username2">Username:</label>
-                    <input type="text" id="username2" disabled>
+                    <label for="id">Role</label>
+                    <input type="text" id="role2">
                 </div>
-                <div class="model-item">
-                    <label for="password2">Password:</label>
-                    <input type="text" id="password2">
-                </div>
-                <div class="model-item">
-                    <label for="Role">Role:</label>
-                    <select id="group_id2">
-{{--                        @foreach($groups as $item)--}}
-{{--                            <option value="{{$item['gid']}}">{{$item['title']}}</option>--}}
-{{--                        @endforeach--}}
-                    </select>
-                </div>
-                <div class="model-item">
-                    <label for="real_name2">Name:</label>
-                    <input type="text" id="real_name2">
-                </div>
-                <div class="model-item">
-                    <label for="phone2">Phone:</label>
-                    <input type="text" id="phone2">
-                </div>
-                <div class="model-item">
-                    <label for="Setting">Setting:</label>
-                    <input type="checkbox" title="disabled" id="status2">
-                </div>
+                <form>
+                    @foreach($menus as $val)
+                        <div><strong>{{$val['title']}}</strong></div>
+                        @if($val['children'])
+                            @foreach($val['children'] as $child)
+{{--                                @if($rights)--}}
+                                <input type="checkbox" value="{{$child['mid']}}" name="{{$child['title']}}" class="edit"
+{{--                                    {{ in_array($child['mid'],$list[$val[]])? 'checked':''}}--}}
+                                     >
+{{--                                @endif--}}
+                                <span>{{$child['title']}}</span>
+                            @endforeach
+                        @endif
+                    @endforeach
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -152,23 +123,14 @@
     function save() {
         let data = new Object();
         data._token = $('input[name="_token"]').val();
-        data.username = $('#username').val().trim();
-        data.password = $('#password').val().trim();
-        data.group_id = $('#group_id').val().trim();
-        data.real_name = $('#real_name').val().trim();
-        data.phone = $('#phone').val().trim();
-        data.status = $('#status').is(':checked')?1:0;
-        if(data.username===''){
-            alert('Username is required!');
-        }
-        if(data.password===''){
-            alert('Password is required!');
-        }
-        if(data.group_id==='0'){
-            alert('Group ID is required!');
+        data.role = $('#role').val().trim();
+        data.rights = $('form').serialize();
+        // data.status = $('#status').is(':checked')?1:0;
+        if(data.role===''){
+            alert('Role title is required!');
         }
         $.post(
-            'http://localhost:8080/xpcms/xpcms/public/admins/admin/save',
+            'http://localhost:8080/xpcms/xpcms/public/admins/groups/save',
             data,
             function (res) {
                 if(res.code>0){
@@ -184,14 +146,26 @@
 
     }
     function edit($admin) {
-        $('#myModal2').on('show.bs.modal', function () {
-            $('#username2').attr('value',$admin.username);
-            $('#real_name2').attr('value',$admin.real_name);
-            $('#phone2').attr('value',$admin.mobile);
-            $('#password2').attr('value',$admin.password);
-            $admin.status===1? $('#status2').attr('checked','checked'):'';
+        $('#role2').attr('value',$admin.title);
+        let rights=[];
+        rights = $.parseJSON($admin.rights);
+        let a = $('.edit');
+        for(let key in rights){
+            for(let i=0;i<a.length;i++){
+                if($(a[i]).attr('value')==rights[key]){
+                    $(a[i]).prop('checked',true);
+                }
+            }
+        }
+        $('#myModal2').on('hidden.bs.modal', function () {
+            let a = $('.edit');
+            for(let i=0;i<a.length;i++){
+                $(a[i]).prop('checked',false);
+            }
         });
     }
+
+
 
     function edit_save() {
         let data = new Object();
@@ -210,7 +184,7 @@
         }
         $.post(
             'http://localhost:8080/xpcms/xpcms/public/admins/admin/edit_save',
-            data,
+            $('form').serializeArray(),
             function (res) {
                 if(res.code>0){
                     alert(res.msg);
