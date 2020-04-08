@@ -49,4 +49,7 @@ Route::namespace('admins')->middleware(['auth','rights'])->group(function (){
     Route::post('/admins/groups/edit','Groups@edit');
     //Article management
     Route::get('/admins/content/index','Content@index');
+    //Website setting
+    Route::get('/admins/site/seo','Site@seo');
+    Route::post('/admins/site/seo_save','Site@seo_save');
 });

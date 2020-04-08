@@ -8,8 +8,6 @@ use xpcms\Http\Controllers\Controller;
 class Groups extends Controller{
     public function index(){
         $data['lists'] = DB::table('xpcms_admin_group')->lists();
-//        echo '<pre>';
-//        print_r($data['lists']);
         $data['menus'] = DB::table('xpcms_admin_menu')->where('status',0)->myFunc('mid');
         $data['menus'] = $this->getTreeItems($data['menus']);
         $results = [];
@@ -18,9 +16,6 @@ class Groups extends Controller{
             $results[] = $val;
         }
         $data['menus'] = $results;
-//        echo '<pre>';
-//        print_r($results);
-//        exit(json_encode()$data['menus']);
         return view('admin.groups.index',$data);
     }
 
@@ -28,7 +23,6 @@ class Groups extends Controller{
         $gid = $req->gid;
         $data['lists'] = DB::table('xpcms_admin_group')->where('gid',$gid)->item();
         $data["rights"] = $data['lists']["rights"];
-//        exit(json_encode());
         return view('admin.groups.index',$data);
     }
 
@@ -69,8 +63,6 @@ class Groups extends Controller{
             exit(json_encode(['code'=>1,'msg'=>'Role title is required']));
         }
         $results = DB::table('xpcms_admin_group')->lists();
-//        exit($right_group);
-//        $titles =[];
         foreach ($results as $val){
             $titles[] = $val["title"];
         }
